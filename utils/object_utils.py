@@ -141,11 +141,9 @@ def get_nearby_moving_obj_feature_ls(
     p0 = np.array([query_x, query_y])
     for track_id, remain_df in traj_df.groupby("TRACK_ID"):
         if remain_df["OBJECT_TYPE"].iloc[0] == "AGENT":
-            print(len(remain_df["X"].values))
             continue
 
         remain_df_len = len(remain_df["X"].values)
-        print(track_id, remain_df_len)
         if remain_df_len < EXIST_THRESHOLD or get_is_track_stationary(
             remain_df):
             continue

@@ -102,6 +102,7 @@ def compute_feature_for_one_seq(
 
     # vis
     if viz:
+        plt.figure(figsize=(12, 10))
         for features in lane_feature_ls:
             show_doubled_lane(
                 np.vstack((features[0][:, :2], features[0][-1, 3:5]))
@@ -109,12 +110,21 @@ def compute_feature_for_one_seq(
             show_doubled_lane(
                 np.vstack((features[1][:, :2], features[1][-1, 3:5]))
             )
-        print(len(obj_feature_ls))
         for features in obj_feature_ls:
+            traj = np.vstack((features[0][:, :2], features[0][-1, 2:]))
             show_traj(
-                np.vstack((features[0][:, :2], features[0][-1, 2:])),
+                traj,
                 features[1],
             )
+            plt.plot(traj[0][0], traj[0][1], "x", color="blue", markersize=4)
+            plt.plot(
+                traj[-1][0],
+                traj[-1][1],
+                "*",
+                color="blue",
+                markersize=4,
+            )
+        
         show_traj(
             np.vstack((agent_feature[0][:, :2], agent_feature[0][-1, 2:])),
             agent_feature[1],
@@ -127,7 +137,7 @@ def compute_feature_for_one_seq(
             color=color_dict["AGENT"],
             markersize=7,
         )
-        plt.plot(0, 0, "x", color="blue", markersize=4)
+        plt.plot(0, 0, "*", color="blue", markersize=4)
         plt.plot(
             start_x - query_x,
             start_y - query_y,

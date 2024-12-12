@@ -9,10 +9,10 @@ RAW_DATA_FORMAT = {
 LANE_WIDTH = {"MIA": 3.84, "PIT": 3.97}
 VELOCITY_THRESHOLD = 1.0
 # Number of timesteps the track should exist to be considered in social context
-EXIST_THRESHOLD = 50
+EXIST_THRESHOLD = 5
 # index of the sorted velocity to look at, to call it as stationary
 STATIONARY_THRESHOLD = 13
-color_dict = {"AGENT": "#d33e4c", "OTHERS": "#d3e8ef", "AV": "#007672"} # agent: red others: grayish blue av:dark cyan
+color_dict = {"AGENT": "#d33e4c", "OTHERS": "#00FF00", "AV": "#0000FF"} # agent: red others: yellow av:blue
 LANE_RADIUS = 30
 OBJ_RADIUS = 30
 DATA_DIR = "./mydata"

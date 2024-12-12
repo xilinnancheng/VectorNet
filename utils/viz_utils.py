@@ -25,7 +25,11 @@ def show_traj(traj, type_):
     args: ndarray in shape of (n, 2)
     returns:
     """
-    plt.plot(traj[:, 0], traj[:, 1], color=color_dict[type_])
+    if type_ == "AGENT" or type_ == "AV":
+        traj_color = color_dict[type_]
+    else:
+        traj_color = np.random.rand(3,)
+    plt.plot(traj[:, 0], traj[:, 1], color = traj_color)
 
 
 def reconstract_polyline(features, traj_mask, lane_mask, add_len):
@@ -66,6 +70,12 @@ def show_predict_result(
     type_ = "AGENT"
     for traj in traj_ls:
         show_traj(traj, type_)
+        plt.plot(traj[0,0],traj[0,1],"x",
+                color="blue",
+                markersize=4)
+        plt.plot(traj[-1,0],traj[-1,1],"*",
+                color="blue",
+                markersize=4)
         type_ = "OTHERS"
 
     if show_lane:
