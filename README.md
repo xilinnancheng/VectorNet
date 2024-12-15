@@ -3,6 +3,7 @@
 Python 3.8.10  
 Pytorch 1.11.0+cu113  
 Pytorch-geometric 2.0.4  
+
 ## 2.Overfit version
 loss  
 <img src=https://github.com/xilinnancheng/VectorNet/blob/main/overfit_result/loss.png width = "600" height="400"/><br/>  
@@ -16,5 +17,6 @@ scenario 1:
 scenario 2:  
 <img src=https://github.com/xilinnancheng/VectorNet/blob/main/overfit_result/scenario2.png width = "600" height="400"/><br/>  
 
-
+## Reference
+[1]https://github.com/xk-huang/yet-another-vectornet
 
