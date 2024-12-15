@@ -31,11 +31,9 @@ def compute_velocity(track_df: pd.DataFrame) -> List[float]:
         *[
             (
                 x_coord[i]
-                - x_coord[i - 1]
-                / (float(timestamp[i]) - float(timestamp[i - 1])),
+                - x_coord[i - 1] / (float(timestamp[i]) - float(timestamp[i - 1])),
                 y_coord[i]
-                - y_coord[i - 1]
-                / (float(timestamp[i]) - float(timestamp[i - 1])),
+                - y_coord[i - 1] / (float(timestamp[i]) - float(timestamp[i - 1])),
             )
             for i in range(1, len(timestamp))
         ]
@@ -129,9 +127,7 @@ def pad_track(
     return padded_track_array
 
 
-def get_nearby_moving_obj_feature_ls(
-    agent_df, traj_df, obs_len, seq_ts, norm_center
-):
+def get_nearby_moving_obj_feature_ls(agent_df, traj_df, obs_len, seq_ts, norm_center):
     """
     args:
     returns: list of list, (doubled_track, object_type, timestamp, track_id)
@@ -144,8 +140,7 @@ def get_nearby_moving_obj_feature_ls(
             continue
 
         remain_df_len = len(remain_df["X"].values)
-        if remain_df_len < EXIST_THRESHOLD or get_is_track_stationary(
-            remain_df):
+        if remain_df_len < EXIST_THRESHOLD or get_is_track_stationary(remain_df):
             continue
 
         xys, ts = None, None
@@ -161,16 +156,12 @@ def get_nearby_moving_obj_feature_ls(
         if np.linalg.norm(p0 - p1) > OBJ_RADIUS:
             continue
 
-        xys -= (
-            norm_center  # normalize to last observed timestamp point of agent
-        )
+        xys -= norm_center  # normalize to last observed timestamp point of agent
         xys = np.hstack((xys[:-1], xys[1:]))
 
         ts = (ts[:-1] + ts[1:]) / 2
         # if not xys.shape[0] == ts.shape[0]:
         #     from pdb import set_trace;set_trace()
 
-        obj_feature_ls.append(
-            [xys, remain_df["OBJECT_TYPE"].iloc[0], ts, track_id]
-        )
+        obj_feature_ls.append([xys, remain_df["OBJECT_TYPE"].iloc[0], ts, track_id])
     return obj_feature_ls

@@ -69,9 +69,7 @@ def compute_feature_for_one_seq(
 
     # prune points after "obs_len" timestamp
     # [FIXED] test set length is only `obs_len`
-    traj_df = traj_df[
-        traj_df["TIMESTAMP"] <= agent_df["TIMESTAMP"].values[obs_len - 1]
-    ]
+    traj_df = traj_df[traj_df["TIMESTAMP"] <= agent_df["TIMESTAMP"].values[obs_len - 1]]
 
     assert (
         np.unique(traj_df["TIMESTAMP"].values).shape[0] == obs_len
@@ -104,12 +102,8 @@ def compute_feature_for_one_seq(
     if viz:
         plt.figure(figsize=(12, 10))
         for features in lane_feature_ls:
-            show_doubled_lane(
-                np.vstack((features[0][:, :2], features[0][-1, 3:5]))
-            )
-            show_doubled_lane(
-                np.vstack((features[1][:, :2], features[1][-1, 3:5]))
-            )
+            show_doubled_lane(np.vstack((features[0][:, :2], features[0][-1, 3:5])))
+            show_doubled_lane(np.vstack((features[1][:, :2], features[1][-1, 3:5])))
         for features in obj_feature_ls:
             traj = np.vstack((features[0][:, :2], features[0][-1, 2:]))
             show_traj(
@@ -124,7 +118,7 @@ def compute_feature_for_one_seq(
                 color="blue",
                 markersize=4,
             )
-        
+
         show_traj(
             np.vstack((agent_feature[0][:, :2], agent_feature[0][-1, 2:])),
             agent_feature[1],
@@ -247,9 +241,7 @@ def encode_features(agent_feature, obj_feature_ls, lane_feature_ls):
     pre_lane_len = lane_nd.shape[0]
     for lane_feature in lane_feature_ls:
         l_lane_len = lane_feature[0].shape[0]
-        l_lane_nd = np.hstack(
-            (lane_feature[0], np.ones((l_lane_len, 1)) * polyline_id)
-        )
+        l_lane_nd = np.hstack((lane_feature[0], np.ones((l_lane_len, 1)) * polyline_id))
         assert l_lane_nd.shape[1] == 7, "obj_traj feature dim 1 is not correct"
         lane_nd = np.vstack((lane_nd, l_lane_nd))
         lane_id2mask[polyline_id] = (pre_lane_len, lane_nd.shape[0])
@@ -258,9 +250,7 @@ def encode_features(agent_feature, obj_feature_ls, lane_feature_ls):
         polyline_id += 1
 
         r_lane_len = lane_feature[1].shape[0]
-        r_lane_nd = np.hstack(
-            (lane_feature[1], np.ones((r_lane_len, 1)) * polyline_id)
-        )
+        r_lane_nd = np.hstack((lane_feature[1], np.ones((r_lane_len, 1)) * polyline_id))
         assert r_lane_nd.shape[1] == 7, "obj_traj feature dim 1 is not correct"
         lane_nd = np.vstack((lane_nd, r_lane_nd))
         lane_id2mask[polyline_id] = (pre_lane_len, lane_nd.shape[0])
@@ -268,9 +258,7 @@ def encode_features(agent_feature, obj_feature_ls, lane_feature_ls):
         pre_lane_len = lane_nd.shape[0]
         polyline_id += 1
 
-        assert (
-            _tmp_len_1 == _tmp_len_2
-        ), f"left, right lane vector length contradict"
+        assert _tmp_len_1 == _tmp_len_2, f"left, right lane vector length contradict"
         # lane_nd = np.vstack((lane_nd, l_lane_nd, r_lane_nd))
 
     # FIXME: handling `nan` in lane_nd
@@ -303,14 +291,10 @@ def encode_features(agent_feature, obj_feature_ls, lane_feature_ls):
     # (xs, ys, zs, xe, ye, ze, polyline_id) for lanes
 
     # change lanes feature to xs, ys, xe, ye, NULL, zs, ze, polyline_id)
-    lane_nd = np.hstack(
-        [lane_nd, np.zeros((lane_nd.shape[0], 1), dtype=lane_nd.dtype)]
-    )
+    lane_nd = np.hstack([lane_nd, np.zeros((lane_nd.shape[0], 1), dtype=lane_nd.dtype)])
     lane_nd = lane_nd[:, [0, 1, 3, 4, 7, 2, 5, 6]]
     # change object features to (xs, ys, xe, ye, timestamp, NULL, NULL, polyline_id)
-    traj_nd = np.hstack(
-        [traj_nd, np.zeros((traj_nd.shape[0], 2), dtype=traj_nd.dtype)]
-    )
+    traj_nd = np.hstack([traj_nd, np.zeros((traj_nd.shape[0], 2), dtype=traj_nd.dtype)])
     traj_nd = traj_nd[:, [0, 1, 2, 3, 5, 7, 8, 6]]
 
     # don't ignore the id

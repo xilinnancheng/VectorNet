@@ -23,9 +23,9 @@ def get_halluc_lane(centerlane, city_name):
 
     half_width = LANE_WIDTH[city_name] / 2
     rotate_quat = np.array([[0.0, -1.0], [1.0, 0.0]])
-    halluc_lane_1, halluc_lane_2 = np.empty(
+    halluc_lane_1, halluc_lane_2 = np.empty((0, centerlane.shape[1] * 2)), np.empty(
         (0, centerlane.shape[1] * 2)
-    ), np.empty((0, centerlane.shape[1] * 2))
+    )
     for i in range(centerlane.shape[0] - 1):
         st, en = centerlane[i][:2], centerlane[i + 1][:2]
         dx = en - st
@@ -100,17 +100,13 @@ def get_nearby_lane_feature_ls(
         )
 
         for lane_id in nearby_lane_ids:
-            traffic_control = am.lane_has_traffic_control_measure(
-                lane_id, city_name
-            )
+            traffic_control = am.lane_has_traffic_control_measure(lane_id, city_name)
             is_intersection = am.lane_is_in_intersection(lane_id, city_name)
 
             centerlane = am.get_lane_segment_centerline(lane_id, city_name)
             # normalize to last observed timestamp point of agent
             centerlane[:, :2] -= norm_center
-            halluc_lane_1, halluc_lane_2 = get_halluc_lane(
-                centerlane, city_name
-            )
+            halluc_lane_1, halluc_lane_2 = get_halluc_lane(centerlane, city_name)
 
             # pdb.set_trace()
             # BUG: halluc_lane_1, halluc_lane_2 might contain nan, throwing to upper call function to handle
@@ -146,17 +142,13 @@ def get_nearby_lane_feature_ls(
         )
 
         for lane_id in nearby_lane_ids:
-            traffic_control = am.lane_has_traffic_control_measure(
-                lane_id, city_name
-            )
+            traffic_control = am.lane_has_traffic_control_measure(lane_id, city_name)
             is_intersection = am.lane_is_in_intersection(lane_id, city_name)
 
             centerlane = am.get_lane_segment_centerline(lane_id, city_name)
             # normalize to last observed timestamp point of agent
             centerlane[:, :2] -= norm_center
-            halluc_lane_1, halluc_lane_2 = get_halluc_lane(
-                centerlane, city_name
-            )
+            halluc_lane_1, halluc_lane_2 = get_halluc_lane(centerlane, city_name)
 
             # pdb.set_trace()
             # BUG: halluc_lane_1, halluc_lane_2 might contain nan, throwing to upper call function to handle

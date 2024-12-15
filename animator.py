@@ -2,11 +2,13 @@ from IPython import display
 from matplotlib import pyplot as plt
 from matplotlib_inline import backend_inline
 
+
 def use_svg_display():
     """Use the svg format to display a plot in Jupyter.
 
     Defined in :numref:`sec_calculus`"""
-    backend_inline.set_matplotlib_formats('svg')
+    backend_inline.set_matplotlib_formats("svg")
+
 
 def set_axes(axes, xlabel, ylabel, xlim, ylim, xscale, yscale, legend):
     """Set the axes for matplotlib.
@@ -22,12 +24,24 @@ def set_axes(axes, xlabel, ylabel, xlim, ylim, xscale, yscale, legend):
         axes.legend(legend)
     axes.grid()
 
+
 class Animator:
     """For plotting data in animation."""
-    def __init__(self, xlabel=None, ylabel=None, legend=None, xlim=None,
-                 ylim=None, xscale='linear', yscale='linear',
-                 fmts=('-', 'm--', 'g-.', 'r:'), nrows=1, ncols=1,
-                 figsize=(3.5, 2.5)):
+
+    def __init__(
+        self,
+        xlabel=None,
+        ylabel=None,
+        legend=None,
+        xlim=None,
+        ylim=None,
+        xscale="linear",
+        yscale="linear",
+        fmts=("-", "m--", "g-.", "r:"),
+        nrows=1,
+        ncols=1,
+        figsize=(3.5, 2.5),
+    ):
         """Defined in :numref:`sec_softmax_scratch`"""
         # Incrementally plot multiple lines
         if legend is None:
@@ -35,10 +49,13 @@ class Animator:
         use_svg_display()
         self.fig, self.axes = plt.subplots(nrows, ncols, figsize=figsize)
         if nrows * ncols == 1:
-            self.axes = [self.axes, ]
+            self.axes = [
+                self.axes,
+            ]
         # Use a lambda function to capture arguments
         self.config_axes = lambda: set_axes(
-            self.axes[0], xlabel, ylabel, xlim, ylim, xscale, yscale, legend)
+            self.axes[0], xlabel, ylabel, xlim, ylim, xscale, yscale, legend
+        )
         self.X, self.Y, self.fmts = None, None, fmts
 
     def add(self, x, y):

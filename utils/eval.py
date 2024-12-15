@@ -26,11 +26,7 @@ def get_eval_metric_results(
             gt = None
             # mutil gpu testing
             if isinstance(data, List):
-                gt = (
-                    torch.cat([i.y for i in data], 0)
-                    .view(-1, out_channels)
-                    .to(device)
-                )
+                gt = torch.cat([i.y for i in data], 0).view(-1, out_channels).to(device)
             # single gpu testing
             else:
                 data = data.to(device)

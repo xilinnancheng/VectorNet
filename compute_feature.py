@@ -24,9 +24,7 @@ if __name__ == "__main__":
     target_viz_index = 5
 
     for folder in os.listdir(DATA_DIR):
-        arg_for_loader = ArgoverseForecastingLoader(
-            os.path.join(DATA_DIR, folder)
-        )
+        arg_for_loader = ArgoverseForecastingLoader(os.path.join(DATA_DIR, folder))
 
         norm_center = {}
         index = 0
@@ -43,16 +41,14 @@ if __name__ == "__main__":
                     OBS_LEN,
                     LANE_RADIUS,
                     OBJ_RADIUS,
-                    viz= index == target_viz_index,
+                    viz=index == target_viz_index,
                     mode="nearby",
                 )
             )
-            
-            df = encode_features(
-                agent_feature, obj_feature_list, lane_feature_list
-            )
+
+            df = encode_features(agent_feature, obj_feature_list, lane_feature_list)
             save_features(
                 df,
                 name,
                 os.path.join(INTERMEDIATE_DATA_DIR, f"{folder}_intermediate"),
-                )
+            )

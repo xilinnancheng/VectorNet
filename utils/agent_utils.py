@@ -21,9 +21,7 @@ def get_agent_feature_ls(agent_df, obs_len, norm_center):
         agent_df[["X", "Y"]].values[obs_len:],
     )
     xys -= norm_center  # normalize to last observed timestamp point of agent
-    gt_xys -= (
-        norm_center  # normalize to last observed timestamp point of agent
-    )
+    gt_xys -= norm_center  # normalize to last observed timestamp point of agent
     xys = np.hstack((xys[:-1], xys[1:]))
 
     ts = agent_df["TIMESTAMP"].values[:obs_len]
