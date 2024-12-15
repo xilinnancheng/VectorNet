@@ -18,5 +18,6 @@ scenario 2:
 <img src=https://github.com/xilinnancheng/VectorNet/blob/main/overfit_result/scenario2.png width = "600" height="400"/><br/>  
 
 ## Reference
-[1]https://github.com/xk-huang/yet-another-vectornet
+[1]https://github.com/xk-huang/yet-another-vectornet  
+[2]VectorNet: Encoding HD Maps and Agent Dynamics from Vectorized Representation https://arxiv.org/abs/2005.04259  
 
